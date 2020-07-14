@@ -92,3 +92,6 @@ sw.*
 # vercel config
 now.json
 .nowignore
+
+# vscode config
+.vscode
