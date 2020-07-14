@@ -1,34 +1,55 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        mywebsite
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <section class="util_container">
+    <component
+      v-if="story.content.component"
+      :key="story.content._uid"
+      :blok="story.content"
+      :is="story.content.component"
+    ></component>
+  </section>
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      story: {
+        content: {}
+      }
+    }
+  },
+  mounted () {   
+    // use the bridge to listen to events
+    this.$storybridge.on(['input', 'published', 'change'], (event) => {
+      if (event.action === 'input') {
+        if (event.story.id === this.story.id) {
+          this.story.content = event.story.content
+        }
+      } else {
+        // window.location.reload()
+        this.$nuxt.$router.go({
+          path: this.$nuxt.$router.currentRoute,
+          force: true
+        })
+      }
+    })
+  },
+  asyncData (context) {//asyncdata在初始化组件之前，执行异步操作,在服务端获取数据然后并渲染，并且nuxt.js会将获取到的数据和组件的Data进行合并
+    // 从API中加载JSON
+   
+    return context.app.$storyapi.get('cdn/stories/home', {
+      version: 'draft'
+    }).then((res) => {
+      return res.data
+    }).catch((res) => {
+      if (!res.response) {      
+        context.error({ statusCode: 404, message: '获取数据失败' })
+      } else {    
+        context.error({ statusCode: res.response.status, message: res.response.data })
+      }
+    })
+  }
+}
 </script>
 
 <style>
@@ -42,16 +63,8 @@ export default {}
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

@@ -12,16 +12,18 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
-    "nuxt": "^2.13.0"
+    "nuxt": "^2.13.0",
+    "storyblok-nuxt": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
-    "css-loader": "^3.6.0",
     "eslint": "^7.2.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "node-sass": "^4.14.1",
-    "sass-loader": "^9.0.2"
+    "sass-loader": "^9.0.2",
+    "scss-loader": "^0.0.1"
   }
 }

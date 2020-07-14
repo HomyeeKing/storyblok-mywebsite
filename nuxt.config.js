@@ -33,7 +33,9 @@ export default {
      ** Plugins to load before mounting the App
      ** https://nuxtjs.org/guide/plugins
      */
-    plugins: [],
+    plugins: [
+        '~/plugins/components'
+    ],
     /*
      ** Auto import components
      ** See https://nuxtjs.org/api/configuration-components
@@ -44,15 +46,26 @@ export default {
      */
     buildModules: [
         // Doc: https://github.com/nuxt-community/eslint-module
-        '@nuxtjs/eslint-module'
+        // '@nuxtjs/eslint-module'
     ],
     /*
      ** Nuxt.js modules
      */
-    modules: [],
+    modules: [
+        [
+            'storyblok-nuxt',
+            {
+                accessToken: 'CkF2QkrnGY0JQQuCJRflIQtt',
+                cacheProvider: 'memory'
+            }
+        ]
+    ],
     /*
      ** Build configuration
      ** See https://nuxtjs.org/api/configuration-build/
      */
-    build: {}
+    build: {},
+    router: {
+        middleware: 'languageDetection'
+    },
 }
